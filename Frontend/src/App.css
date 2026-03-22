@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem;
+}
+
+:root {
+  --header-bg: #1a1a2e;
+  --header-text: #eee;
+  --footer-bg: #16213e;
+  --footer-text: #aaa;
+  --link-color: #2563eb;
+  --text-color: #1a1a2e;
+  --text-muted: #555;
+  --border-color: #e9ecef;
+  --sidebar-bg: #f8f9fa;
+}

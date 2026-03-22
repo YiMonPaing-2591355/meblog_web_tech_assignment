@@ -1,0 +1,17 @@
+.footer {
+  background: var(--footer-bg, #16213e);
+  color: var(--footer-text, #aaa);
+  padding: 1.5rem 1rem;
+  margin-top: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.container p {
+  margin: 0;
+  font-size: 0.9rem;
+}

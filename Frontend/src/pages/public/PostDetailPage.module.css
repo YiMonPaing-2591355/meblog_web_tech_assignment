@@ -1,0 +1,78 @@
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.article {
+  padding: 0 0 2rem;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+.meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.imageWrap {
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+.content {
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  white-space: pre-wrap;
+}
+
+.commentsSection h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.commentForm {
+  margin-top: 1rem;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.submitBtn {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--link-color);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loginHint {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}

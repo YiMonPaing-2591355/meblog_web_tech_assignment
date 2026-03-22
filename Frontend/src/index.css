@@ -1,0 +1,32 @@
+/* MeBlog – modern blog theme */
+:root {
+  --header-bg: #1a1a2e;
+  --header-text: #eee;
+  --footer-bg: #16213e;
+  --footer-text: #aaa;
+  --link-color: #2563eb;
+  --text-color: #1a1a2e;
+  --text-muted: #555;
+  --border-color: #e9ecef;
+  --sidebar-bg: #f8f9fa;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--link-color);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
