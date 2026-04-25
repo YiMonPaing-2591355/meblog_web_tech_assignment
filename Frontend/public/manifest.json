@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MeBlog",
+  "name": "MeBlog Platform",
   "icons": [
     {
       "src": "me_logo.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#FEFEFE",
-  "background_color": "#ffffff"
+  "theme_color": "#FEF3EB",
+  "background_color": "#FEF8F3"
 }
