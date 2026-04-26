@@ -5,10 +5,21 @@
 .hero {
   text-align: center;
   padding: 2rem 1rem 2.5rem;
-  background: linear-gradient(135deg, #55717e 0%, #162d3e 100%);
-  color: #eee;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(243, 252, 248, 0.28) 0 52px, transparent 53px),
+    radial-gradient(circle at 50% 22%, rgba(116, 198, 168, 0.35) 0 88px, transparent 89px),
+    repeating-radial-gradient(circle at 50% 22%, rgba(243, 252, 248, 0.12) 0 8px, transparent 8px 18px),
+    linear-gradient(135deg, #74c6a8 0%, #4f7d4e 100%);
+  color: #f3fcf8;
   border-radius: 8px;
   margin-bottom: 2rem;
+}
+
+.heroLogo {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
 }
 
 .heroTitle {

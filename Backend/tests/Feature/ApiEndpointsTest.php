@@ -38,6 +38,48 @@ class ApiEndpointsTest extends TestCase
         ]);
     }
 
+    public function test_author_registration_starts_as_pending_author(): void
+    {
+        $payload = [
+            'name' => 'Pending Author',
+            'email' => 'author@example.com',
+            'role' => 'author',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+        ];
+
+        $response = $this->postJson('/api/register', $payload);
+
+        $response->assertCreated()
+            ->assertJsonPath('user.email', 'author@example.com')
+            ->assertJsonPath('user.role', 'author_pending');
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'author@example.com',
+            'role' => 'author_pending',
+        ]);
+    }
+
+    public function test_admin_can_approve_pending_author(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $pendingAuthor = User::factory()->create(['role' => 'author_pending']);
+
+        $response = $this
+            ->actingAs($admin, 'sanctum')
+            ->postJson('/api/admin/users/'.$pendingAuthor->id.'/approve-author');
+
+        $response->assertOk()
+            ->assertJsonPath('message', 'Author account approved.')
+            ->assertJsonPath('user.id', $pendingAuthor->id)
+            ->assertJsonPath('user.role', 'author');
+
+        $this->assertDatabaseHas('users', [
+            'id' => $pendingAuthor->id,
+            'role' => 'author',
+        ]);
+    }
+
     public function test_public_posts_endpoint_returns_only_published_posts(): void
     {
         $author = User::factory()->create(['role' => 'author']);

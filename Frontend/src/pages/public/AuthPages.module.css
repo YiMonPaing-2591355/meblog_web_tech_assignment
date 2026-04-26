@@ -26,6 +26,14 @@
   font-size: 1rem;
 }
 
+.form select {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fff;
+}
+
 .form button {
   padding: 0.65rem;
   background: var(--link-color);

@@ -63,6 +63,20 @@ class AdminController extends Controller
         return response()->json($users);
     }
 
+    public function approveAuthor(User $user): JsonResponse
+    {
+        if ($user->role !== 'author_pending') {
+            return response()->json(['message' => 'User is not pending author approval.'], 422);
+        }
+
+        $user->update(['role' => 'author']);
+
+        return response()->json([
+            'message' => 'Author account approved.',
+            'user' => $user->only(['id', 'name', 'email', 'role', 'created_at']),
+        ]);
+    }
+
     public function comments(): JsonResponse
     {
         $comments = Comment::with(['user:id,name', 'post:id,title,slug'])

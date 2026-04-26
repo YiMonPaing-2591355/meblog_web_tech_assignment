@@ -18,13 +18,17 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
+            'role' => ['nullable', 'in:user,author'],
         ]);
+
+        $requestedRole = $request->input('role', 'user');
+        $role = $requestedRole === 'author' ? 'author_pending' : 'user';
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user',
+            'role' => $role,
         ]);
 
         $token = $user->createToken('auth')->plainTextToken;

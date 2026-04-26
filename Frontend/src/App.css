@@ -17,13 +17,14 @@
 }
 
 :root {
-  --header-bg: #1a1a2e;
-  --header-text: #eee;
-  --footer-bg: #16213e;
-  --footer-text: #aaa;
-  --link-color: #2563eb;
-  --text-color: #1a1a2e;
-  --text-muted: #555;
-  --border-color: #e9ecef;
-  --sidebar-bg: #f8f9fa;
+  --header-bg: #2f6f5f;
+  --header-text: #f3fcf8;
+  --footer-bg: #2a5d4f;
+  --footer-text: #d7ede4;
+  --link-color: #3f8f71;
+  --text-color: #223a31;
+  --text-muted: #4f6b61;
+  --border-color: #cfe1d8;
+  --sidebar-bg: #eff8f4;
+  --comment-bg: #f3fbf7;
 }

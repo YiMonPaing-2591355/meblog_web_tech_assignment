@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [role, setRole] = useState('user');
   const [password, setPassword] = useState('');
   const [password_confirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState('');
@@ -23,7 +24,7 @@ export default function RegisterPage() {
     }
     setLoading(true);
     client
-      .post('/register', { name, email, password, password_confirmation })
+      .post('/register', { name, email, role, password, password_confirmation })
       .then((res) => {
         login(res.data.user, res.data.token);
         navigate('/', { replace: true });
@@ -65,6 +66,13 @@ export default function RegisterPage() {
             required
             autoComplete="email"
           />
+        </label>
+        <label>
+          Register as
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
+            <option value="user">Reader</option>
+            <option value="author">Author (requires admin approval)</option>
+          </select>
         </label>
         <label>
           Password

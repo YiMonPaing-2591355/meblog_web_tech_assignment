@@ -47,6 +47,7 @@ export default function HomePage() {
   return (
     <div className={styles.wrapper}>
       <section className={styles.hero}>
+        <img src="/me_logo.png" alt="Me Blog logo" className={styles.heroLogo} />
         <h1 className={styles.heroTitle}>MeBlog</h1>
         <p className={styles.heroSub}>Discover stories and ideas.</p>
         <SearchBar onSearch={handleSearch} />

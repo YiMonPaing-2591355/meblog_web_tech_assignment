@@ -16,7 +16,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <Link to="/" className={styles.logo}>
-          MeBlog
+          <img src="/mebloglogo.png" alt="MeBlog logo" className={styles.logoImage} />
         </Link>
         <div className={styles.links}>
           <Link to="/">Home</Link>

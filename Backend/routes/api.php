@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/posts/{post}/approve', [AdminController::class, 'approvePost']);
         Route::post('/posts/{post}/reject', [AdminController::class, 'rejectPost']);
         Route::get('/users', [AdminController::class, 'users']);
+        Route::post('/users/{user}/approve-author', [AdminController::class, 'approveAuthor']);
         Route::get('/comments', [AdminController::class, 'comments']);
         Route::put('/comments/{comment}', [AdminController::class, 'updateComment']);
         Route::post('/categories', [CategoryController::class, 'store']);
