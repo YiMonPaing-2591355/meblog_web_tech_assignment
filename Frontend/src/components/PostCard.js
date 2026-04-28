@@ -1,13 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './PostCard.module.css';
-
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+import { buildStorageImageUrl } from '../utils/imageUrl';
 
 export default function PostCard({ post }) {
-  const imageUrl = post.image
-    ? `${API_BASE.replace('/api', '')}/storage/${post.image}`
-    : null;
+  const imageUrl = buildStorageImageUrl(post.image_url || post.image);
   const excerpt = post.content
     ? post.content.replace(/<[^>]*>/g, '').slice(0, 120) + (post.content.length > 120 ? '...' : '')
     : '';

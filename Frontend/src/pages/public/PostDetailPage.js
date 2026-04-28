@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom';
 import client from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 import CommentBox from '../../components/CommentBox';
+import { buildStorageImageUrl } from '../../utils/imageUrl';
 import styles from './PostDetailPage.module.css';
-
-const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 export default function PostDetailPage() {
   const { id } = useParams();
@@ -20,7 +19,10 @@ export default function PostDetailPage() {
   useEffect(() => {
     client
       .get(`/posts/${id}`)
-      .then((res) => setPost(res.data))
+      .then((res) => {
+        console.log('Post API response:', res.data);
+        setPost(res.data);
+      })
       .catch((err) => setError(err.response?.status === 404 ? 'Not found' : 'Failed to load'))
       .finally(() => setLoading(false));
   }, [id]);
@@ -44,9 +46,12 @@ export default function PostDetailPage() {
 
   if (loading) return <div className={styles.wrap}>Loading...</div>;
   if (error || !post) return <div className={styles.wrap}>{error || 'Post not found.'}</div>;
-  if (post.status !== 'published') return <div className={styles.wrap}>This post is not available.</div>;
+  const canPreviewUnpublished = !!user && (user.role === 'admin' || user.id === post.user_id);
+  if (post.status !== 'published' && !canPreviewUnpublished) {
+    return <div className={styles.wrap}>This post is not available.</div>;
+  }
 
-  const imageUrl = post.image ? `${API_BASE.replace('/api', '')}/storage/${post.image}` : null;
+  const imageUrl = buildStorageImageUrl(post.image_url || post.image);
 
   return (
     <div className={styles.wrap}>
@@ -66,28 +71,30 @@ export default function PostDetailPage() {
         )}
         <div className={styles.content}>{post.content}</div>
 
-        <section className={styles.commentsSection}>
-          <h2>Comments ({comments.length})</h2>
-          {comments.map((c) => (
-            <CommentBox key={c.id} comment={c} />
-          ))}
-          {user ? (
-            <form onSubmit={handleSubmitComment} className={styles.commentForm}>
-              <textarea
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Write a comment..."
-                rows={3}
-                className={styles.textarea}
-              />
-              <button type="submit" disabled={submitting} className={styles.submitBtn}>
-                {submitting ? 'Sending...' : 'Post comment'}
-              </button>
-            </form>
-          ) : (
-            <p className={styles.loginHint}>Log in to leave a comment.</p>
-          )}
-        </section>
+        {post.status === 'published' && (
+          <section className={styles.commentsSection}>
+            <h2>Comments ({comments.length})</h2>
+            {comments.map((c) => (
+              <CommentBox key={c.id} comment={c} />
+            ))}
+            {user ? (
+              <form onSubmit={handleSubmitComment} className={styles.commentForm}>
+                <textarea
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Write a comment..."
+                  rows={3}
+                  className={styles.textarea}
+                />
+                <button type="submit" disabled={submitting} className={styles.submitBtn}>
+                  {submitting ? 'Sending...' : 'Post comment'}
+                </button>
+              </form>
+            ) : (
+              <p className={styles.loginHint}>Log in to leave a comment.</p>
+            )}
+          </section>
+        )}
       </article>
     </div>
   );

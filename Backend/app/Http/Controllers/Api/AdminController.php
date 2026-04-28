@@ -11,6 +11,20 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function posts(Request $request): JsonResponse
+    {
+        $query = Post::with(['user:id,name', 'category:id,name,slug'])
+            ->orderByDesc('created_at');
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->string('status')->toString());
+        }
+
+        $posts = $query->paginate(20);
+
+        return response()->json($posts);
+    }
+
     public function pendingPosts(): JsonResponse
     {
         $posts = Post::with(['user:id,name', 'category:id,name,slug'])

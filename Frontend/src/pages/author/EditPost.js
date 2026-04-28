@@ -50,9 +50,16 @@ export default function EditPost() {
       formData.append('content', content);
       formData.append('image', image);
       client
-        .post(`/posts/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        .post(`/posts/${id}`, formData)
         .then(() => navigate('/author/posts'))
-        .catch((err) => setError(err.response?.data?.message || 'Failed to update.'))
+        .catch((err) => {
+          const d = err.response?.data;
+          const message =
+            (d?.errors && Object.values(d.errors).flat().join(' ')) ||
+            d?.message ||
+            'Failed to update.';
+          setError(message);
+        })
         .finally(() => setSaving(false));
     } else {
       client

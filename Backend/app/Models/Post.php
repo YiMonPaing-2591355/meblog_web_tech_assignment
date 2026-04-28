@@ -22,6 +22,10 @@ class Post extends Model
         'published_at',
     ];
 
+    protected $appends = [
+        'image_url',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -49,5 +53,22 @@ class Post extends Model
     public function approvedByUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image) {
+            return null;
+        }
+
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        $normalizedPath = str_replace('\\', '/', $this->image);
+        $normalizedPath = ltrim($normalizedPath, '/');
+        $normalizedPath = preg_replace('#^(public|storage)/#', '', $normalizedPath);
+
+        return '/media/'.$normalizedPath;
     }
 }

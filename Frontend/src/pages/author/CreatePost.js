@@ -31,12 +31,15 @@ export default function CreatePost() {
     if (image) formData.append('image', image);
 
     client
-      .post('/posts', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+      .post('/posts', formData)
       .then((res) => navigate('/author/posts'))
       .catch((err) => {
-        setError(err.response?.data?.message || 'Failed to create post.');
+        const d = err.response?.data;
+        const message =
+          (d?.errors && Object.values(d.errors).flat().join(' ')) ||
+          d?.message ||
+          'Failed to create post.';
+        setError(message);
       })
       .finally(() => setLoading(false));
   };
@@ -103,10 +106,17 @@ export default function CreatePost() {
                 formData.append('content', content);
                 if (image) formData.append('image', image);
                 client
-                  .post('/posts', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                  .post('/posts', formData)
                   .then((res) => client.post(`/posts/${res.data.id}/submit`))
                   .then(() => navigate('/author/posts'))
-                  .catch((err) => setError(err.response?.data?.message || 'Failed.'))
+                  .catch((err) => {
+                    const d = err.response?.data;
+                    const message =
+                      (d?.errors && Object.values(d.errors).flat().join(' ')) ||
+                      d?.message ||
+                      'Failed.';
+                    setError(message);
+                  })
                   .finally(() => setLoading(false));
               }}
               disabled={loading}

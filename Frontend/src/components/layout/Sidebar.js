@@ -20,6 +20,7 @@ export default function Sidebar({ variant = 'public', categories = [], recentPos
       <aside className={styles.sidebar}>
         <nav className={styles.nav}>
           <Link to="/admin">Dashboard</Link>
+          <Link to="/admin/posts">All Posts</Link>
           <Link to="/admin/pending">Pending Posts</Link>
           <Link to="/admin/categories">Categories</Link>
           <Link to="/admin/comments">Comments</Link>

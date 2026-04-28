@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ApiEndpointsTest extends TestCase
@@ -162,6 +164,76 @@ class ApiEndpointsTest extends TestCase
             'status' => 'draft',
             'user_id' => $author->id,
         ]);
+    }
+
+    public function test_author_image_upload_is_saved_and_persisted_in_database(): void
+    {
+        Storage::fake('public');
+
+        $author = User::factory()->create(['role' => 'author']);
+        $category = Category::create([
+            'name' => 'Photography',
+            'slug' => 'photography',
+        ]);
+
+        $payload = [
+            'title' => 'Post With Image',
+            'category_id' => $category->id,
+            'content' => 'Body with uploaded image',
+            'image' => UploadedFile::fake()->createWithContent(
+                'cover.png',
+                base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAgMBgNfX9UQAAAAASUVORK5CYII=')
+            ),
+        ];
+
+        $response = $this
+            ->actingAs($author, 'sanctum')
+            ->post('/api/posts', $payload, ['Accept' => 'application/json']);
+
+        $response->assertCreated()
+            ->assertJsonPath('title', 'Post With Image')
+            ->assertJsonPath('status', 'draft');
+
+        $imagePath = $response->json('image');
+
+        $this->assertNotEmpty($imagePath);
+        $this->assertDatabaseHas('posts', [
+            'title' => 'Post With Image',
+            'image' => $imagePath,
+            'user_id' => $author->id,
+        ]);
+        Storage::disk('public')->assertExists($imagePath);
+    }
+
+    public function test_admin_can_view_pending_post_before_review(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $author = User::factory()->create(['role' => 'author']);
+        $category = Category::create([
+            'name' => 'Review',
+            'slug' => 'review',
+        ]);
+
+        $pendingPost = Post::create([
+            'user_id' => $author->id,
+            'category_id' => $category->id,
+            'title' => 'Pending Review Post',
+            'slug' => 'pending-review-post',
+            'content' => 'Pending content visible to admin.',
+            'image' => 'posts/example.jpg',
+            'status' => 'pending',
+            'submitted_at' => now(),
+        ]);
+
+        $response = $this
+            ->actingAs($admin, 'sanctum')
+            ->getJson('/api/posts/'.$pendingPost->id);
+
+        $response->assertOk()
+            ->assertJsonPath('id', $pendingPost->id)
+            ->assertJsonPath('status', 'pending')
+            ->assertJsonPath('content', 'Pending content visible to admin.')
+            ->assertJsonPath('image', 'posts/example.jpg');
     }
 
     public function test_authenticated_user_can_create_comment(): void

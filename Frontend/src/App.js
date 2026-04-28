@@ -17,7 +17,9 @@ import EditPost from './pages/author/EditPost';
 import MyPosts from './pages/author/MyPosts';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
+import ManagePosts from './pages/admin/ManagePosts';
 import PendingPosts from './pages/admin/PendingPosts';
+import PendingPostPreview from './pages/admin/PendingPostPreview';
 import ManageCategories from './pages/admin/ManageCategories';
 import ManageComments from './pages/admin/ManageComments';
 import ManageUsers from './pages/admin/ManageUsers';
@@ -93,6 +95,22 @@ function App() {
               element={
                 <RoleRoute allowedRoles={['admin']}>
                   <PendingPosts />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/admin/posts"
+              element={
+                <RoleRoute allowedRoles={['admin']}>
+                  <ManagePosts />
+                </RoleRoute>
+              }
+            />
+            <Route
+              path="/admin/pending/:id"
+              element={
+                <RoleRoute allowedRoles={['admin']}>
+                  <PendingPostPreview />
                 </RoleRoute>
               }
             />

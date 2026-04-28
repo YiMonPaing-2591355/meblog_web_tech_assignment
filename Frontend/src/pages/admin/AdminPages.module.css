@@ -129,3 +129,45 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.postThumb {
+  width: 96px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.contentCell {
+  max-width: 320px;
+  white-space: normal;
+  line-height: 1.4;
+}
+
+.previewImageWrap {
+  margin: 0.75rem 0 1rem;
+}
+
+.previewImage {
+  max-width: 100%;
+  max-height: 420px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.previewContent {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  white-space: pre-wrap;
+  line-height: 1.55;
+  background: #fff;
+}
+
+.previewActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

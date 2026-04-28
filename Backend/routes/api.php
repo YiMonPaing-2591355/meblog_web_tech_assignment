@@ -39,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Admin
     Route::middleware('admin')->prefix('admin')->group(function () {
+        Route::get('/posts', [AdminController::class, 'posts']);
         Route::get('/pending-posts', [AdminController::class, 'pendingPosts']);
         Route::post('/posts/{post}/approve', [AdminController::class, 'approvePost']);
         Route::post('/posts/{post}/reject', [AdminController::class, 'rejectPost']);

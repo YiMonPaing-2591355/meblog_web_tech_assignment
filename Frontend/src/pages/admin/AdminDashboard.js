@@ -9,8 +9,12 @@ export default function AdminDashboard() {
       <Sidebar variant="admin" />
       <div className={styles.main}>
         <h1>Admin Dashboard</h1>
-        <p>Manage pending posts, categories, comments, and users.</p>
+        <p>Manage all posts, pending reviews, categories, comments, and users.</p>
         <div className={styles.cards}>
+          <Link to="/admin/posts" className={styles.card}>
+            <h3>All Posts</h3>
+            <p>Manage published, draft, pending, rejected</p>
+          </Link>
           <Link to="/admin/pending" className={styles.card}>
             <h3>Pending Posts</h3>
             <p>Review and approve or reject</p>
