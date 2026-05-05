@@ -56,3 +56,23 @@
 .block a:hover {
   text-decoration: underline;
 }
+
+.categoryButton {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--link-color, #2563eb);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.categoryButton:hover {
+  text-decoration: underline;
+}
+
+.activeCategoryButton {
+  font-weight: 600;
+  text-decoration: underline;
+}

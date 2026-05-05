@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import client from '../../api/client';
 import PostCard from '../../components/PostCard';
 import SearchBar from '../../components/SearchBar';
@@ -7,16 +6,16 @@ import Sidebar from '../../components/layout/Sidebar';
 import styles from './HomePage.module.css';
 
 export default function HomePage() {
-  const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState({ data: [], meta: {} });
   const [categories, setCategories] = useState([]);
   const [recentPosts, setRecentPosts] = useState([]);
-  const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [categoryId, setCategoryId] = useState(searchParams.get('category_id') || '');
+  const [search, setSearch] = useState('');
+  const [categoryId, setCategoryId] = useState('');
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    setLoading(true);
     const params = { page };
     if (search) params.search = search;
     if (categoryId) params.category_id = categoryId;
@@ -37,7 +36,16 @@ export default function HomePage() {
   }, []);
 
   const handleSearch = (value) => {
-    setSearch(value);
+    setSearch(value.trim());
+    setPage(1);
+  };
+
+  const handlePageChange = (nextPage) => {
+    setPage(nextPage);
+  };
+
+  const handleCategorySelect = (nextCategoryId) => {
+    setCategoryId(String(nextCategoryId || ''));
     setPage(1);
   };
 
@@ -74,7 +82,7 @@ export default function HomePage() {
                   <button
                     type="button"
                     disabled={page <= 1}
-                    onClick={() => setPage((p) => p - 1)}
+                    onClick={() => handlePageChange(page - 1)}
                   >
                     Previous
                   </button>
@@ -84,7 +92,7 @@ export default function HomePage() {
                   <button
                     type="button"
                     disabled={page >= lastPage}
-                    onClick={() => setPage((p) => p + 1)}
+                    onClick={() => handlePageChange(page + 1)}
                   >
                     Next
                   </button>
@@ -93,7 +101,12 @@ export default function HomePage() {
             </>
           )}
         </div>
-        <Sidebar categories={categories} recentPosts={recentPosts} />
+        <Sidebar
+          categories={categories}
+          recentPosts={recentPosts}
+          activeCategoryId={categoryId}
+          onCategorySelect={handleCategorySelect}
+        />
       </div>
     </div>
   );

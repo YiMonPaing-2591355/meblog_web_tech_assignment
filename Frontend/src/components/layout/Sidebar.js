@@ -2,7 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
-export default function Sidebar({ variant = 'public', categories = [], recentPosts = [] }) {
+export default function Sidebar({
+  variant = 'public',
+  categories = [],
+  recentPosts = [],
+  activeCategoryId = '',
+  onCategorySelect,
+}) {
   if (variant === 'author') {
     return (
       <aside className={styles.sidebar}>
@@ -36,11 +42,28 @@ export default function Sidebar({ variant = 'public', categories = [], recentPos
         <h3>Categories</h3>
         <ul>
           {categories.length ? (
-            categories.map((cat) => (
-              <li key={cat.id}>
-                <Link to={`/blogs?category_id=${cat.id}`}>{cat.name}</Link>
+            <>
+              <li>
+                <button
+                  type="button"
+                  className={`${styles.categoryButton} ${!activeCategoryId ? styles.activeCategoryButton : ''}`}
+                  onClick={() => onCategorySelect?.('')}
+                >
+                  All Posts
+                </button>
               </li>
-            ))
+              {categories.map((cat) => (
+                <li key={cat.id}>
+                  <button
+                    type="button"
+                    className={`${styles.categoryButton} ${String(activeCategoryId) === String(cat.id) ? styles.activeCategoryButton : ''}`}
+                    onClick={() => onCategorySelect?.(cat.id)}
+                  >
+                    {cat.name}
+                  </button>
+                </li>
+              ))}
+            </>
           ) : (
             <li>No categories</li>
           )}
